@@ -1,7 +1,15 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export const App = defineComponent({
   setup() {
-    return () => <div>hi, .tsx</div>
+    const refCount = ref(0)
+    const increment = () => {
+      refCount.value++
+    }
+    return () => (
+      <div>
+        hi, .tsx {refCount.value} <button onClick={increment}>+1</button>
+      </div>
+    )
   },
 })
