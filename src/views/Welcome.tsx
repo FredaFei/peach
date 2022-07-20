@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue'
+import { RouterView } from 'vue-router'
 export const Welcome = defineComponent({
   props: {
     name: {
@@ -6,6 +7,11 @@ export const Welcome = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <div>Welcome</div>
+    return () => (
+      <div>
+        <h1>Welcome</h1>
+        <RouterView />
+      </div>
+    )
   },
 })

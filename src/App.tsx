@@ -1,5 +1,6 @@
 import { defineComponent, ref } from 'vue'
 import { RouterView } from 'vue-router'
+import './App.scss'
 
 export const App = defineComponent({
   setup() {
@@ -8,17 +9,8 @@ export const App = defineComponent({
       refCount.value++
     }
     return () => (
-      <div>
-        <header>
-          <router-link to="/foo">foo</router-link>
-          <router-link to="/bar">bar</router-link>
-        </header>
-        <body>
-          <RouterView />
-        </body>
-        <footer>
-          hi, .tsx {refCount.value} <button onClick={increment}>+1</button>
-        </footer>
+      <div class="page">
+        <RouterView />
       </div>
     )
   },
