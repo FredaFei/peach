@@ -19,3 +19,4 @@ export const First: FunctionalComponent = (props, context) => {
     </WelcomeLayout>
   );
 }
+First.displayName = 'First';

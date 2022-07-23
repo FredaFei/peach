@@ -19,3 +19,4 @@ export const Third: FunctionalComponent = (props, context) => {
     </WelcomeLayout>
   );
 }
+Third.displayName = 'Third';
