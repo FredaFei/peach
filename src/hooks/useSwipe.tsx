@@ -5,7 +5,16 @@ type Point = {
   y: number;
 };
 
-export const useSwipe = (element: Ref<HTMLElement | undefined>) => {
+type Option = {
+  beforeTouchStart?: (e: TouchEvent) => void;
+  afterTouchStart?: (e: TouchEvent) => void;
+  beforeTouchMove?: (e: TouchEvent) => void;
+  afterTouchMove?: (e: TouchEvent) => void;
+  beforeTouchEnd?: (e: TouchEvent) => void;
+  afterTouchEnd?: (e: TouchEvent) => void;
+};
+
+export const useSwipe = (element: Ref<HTMLElement | undefined>, option?: Option) => {
   const swiping = ref<boolean>(false)
   const start = ref<Point>({ x: 0, y: 0 })
   const end = ref<Point>({ x: 0, y: 0 })
@@ -25,18 +34,24 @@ export const useSwipe = (element: Ref<HTMLElement | undefined>) => {
 
   const onTouchStart = (e: TouchEvent) => {
     if (e.touches.length !== 1) return;
+    option?.beforeTouchStart?.(e)
     const touch = e.touches[0];
     start.value = end.value = { x: touch.screenX, y: touch.screenY };
     swiping.value = false;
+    option?.afterTouchStart?.(e)
   }
   const onTouchMove = (e: TouchEvent) => {
     if (!swiping.value) { return }
     if (e.touches.length !== 1) return;
+    option?.beforeTouchMove?.(e)
     const touch = e.touches[0];
     end.value = { x: touch.screenX, y: touch.screenY };
+    option?.afterTouchMove?.(e)
   }
   const onTouchEnd = (e: TouchEvent) => {
+    option?.beforeTouchEnd?.(e)
     swiping.value = false
+    option?.afterTouchEnd?.(e)
   }
 
   onMounted(() => {

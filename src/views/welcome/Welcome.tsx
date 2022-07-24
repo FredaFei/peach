@@ -13,7 +13,7 @@ const replaceMap: Record<string, string> = {
 export const Welcome = defineComponent({
   setup: (props, context) => {
     const main = ref<HTMLElement | undefined>()
-    const { direction, swiping } = useSwipe(main)
+    const { direction, swiping } = useSwipe(main, { beforeTouchStart: (e) => e.preventDefault() })
     const route = useRoute()
     const router = useRouter()
     watchEffect(() => {
