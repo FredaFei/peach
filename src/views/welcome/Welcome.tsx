@@ -1,11 +1,27 @@
-import { defineComponent, ref, Transition, VNode, } from 'vue'
-import { RouterView, RouteLocationNormalizedLoaded } from 'vue-router'
+import { defineComponent, ref, Transition, VNode, watchEffect, } from 'vue'
+import { RouterView, RouteLocationNormalizedLoaded, useRouter, useRoute } from 'vue-router'
 import { useSwipe } from '../../hooks/useSwipe'
 import s from './Welcome.module.scss'
+
+const replaceMap: Record<string, string> = {
+  Welcome1: '/welcome/2',
+  Welcome2: '/welcome/3',
+  Welcome3: '/welcome/4',
+  Welcome4: '/start',
+}
+
 export const Welcome = defineComponent({
   setup: (props, context) => {
-    const main = ref<HTMLElement>(null)
+    const main = ref<HTMLElement | undefined>()
     const { direction, swiping } = useSwipe(main)
+    const route = useRoute()
+    const router = useRouter()
+    watchEffect(() => {
+      const name = (route.name ?? '/Welcome1').toString()
+      if (swiping.value && direction?.value === 'left') {
+        router.replace(replaceMap[name])
+      }
+    })
     return () => (
       <div class={s.wrapper}>
         <header>

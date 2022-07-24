@@ -5,7 +5,7 @@ type Point = {
   y: number;
 };
 
-export const useSwipe = (element: Ref<HTMLElement | null>) => {
+export const useSwipe = (element: Ref<HTMLElement | undefined>) => {
   const swiping = ref<boolean>(false)
   const start = ref<Point>({ x: 0, y: 0 })
   const end = ref<Point>({ x: 0, y: 0 })
