@@ -1,6 +1,7 @@
 import { defineComponent, ref, Transition, VNode, watchEffect, } from 'vue'
 import { RouterView, RouteLocationNormalizedLoaded, useRouter, useRoute } from 'vue-router'
 import { useSwipe } from '../../hooks/useSwipe'
+import { throttle } from '../../shared/throttle'
 import s from './Welcome.module.scss'
 
 const replaceMap: Record<string, string> = {
@@ -16,10 +17,13 @@ export const Welcome = defineComponent({
     const { direction, swiping } = useSwipe(main, { beforeTouchStart: (e) => e.preventDefault() })
     const route = useRoute()
     const router = useRouter()
-    watchEffect(() => {
+    const replace = throttle(() => {
       const name = (route.name ?? '/Welcome1').toString()
+      router.replace(replaceMap[name])
+    }, 500)
+    watchEffect(() => {
       if (swiping.value && direction?.value === 'left') {
-        router.replace(replaceMap[name])
+        replace()
       }
     })
     return () => (
