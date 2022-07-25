@@ -1,0 +1,15 @@
+.button{
+  border: 1px solid var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-size: var(--button-font-size);
+  width: 100%;
+  border-radius: var(--button-border-radius);
+  padding: 8px 16px;
+  height: var(--button-height);
+  
+  &:hover{
+    background: var(--button-bg-hover);
+    color: var(--button-text-hover);
+  }
+}
