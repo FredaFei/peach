@@ -1,4 +1,5 @@
 import { defineComponent, ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import { Button } from '../../components/button/Button';
 import { Center } from '../../components/center/Center';
 import { FloatButton } from '../../components/float-button/FloatButton';
@@ -15,7 +16,6 @@ export const StartPage = defineComponent({
     }
     const onClickFloatButton = (e: MouseEvent) => {
       console.log('onClickFloatButton clicked');
-
     }
     const onClickNavIcon = (e: MouseEvent) => {
       refVisibleOverlay.value = !refVisibleOverlay.value;
@@ -30,9 +30,13 @@ export const StartPage = defineComponent({
               <Icon name={"pig"} class={s.pig} />
             </Center>
             <div class={s.button_wrapper}>
-              <Button onClick={onClick}>开始记账</Button>
+              <RouterLink to="/items/create">
+                <Button onClick={onClick}>开始记账</Button>
+              </RouterLink>
             </div>
-            <FloatButton iconName="add" onClick={onClickFloatButton} />
+            <RouterLink to="/items/create">
+              <FloatButton iconName="add" onClick={onClickFloatButton} />
+            </RouterLink>
             {
               refVisibleOverlay.value && <Overlay onClose={() => refVisibleOverlay.value = false} />
             }
