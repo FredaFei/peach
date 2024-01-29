@@ -8,6 +8,7 @@ import { ItemSummary } from './ItemSummary';
 import { Overlay } from 'vant';
 import { Form, FormItem } from '../../components/form/Form';
 import { Button } from '../../components/button/Button';
+import { OverlayIcon } from '../../components/overlay/Overlay';
 
 export const ItemList = defineComponent({
   props: {
@@ -50,7 +51,7 @@ export const ItemList = defineComponent({
       <MainLayout>{
         {
           title: () => '山竹记账',
-          icon: () => <Icon name="menu" />,
+          icon: () => <OverlayIcon />,
           default: () => <>
             <Tabs classPrefix={'customTabs'} v-model:selected={refSelected.value}
                   onUpdate:selected={onSelect}>

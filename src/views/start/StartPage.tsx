@@ -4,7 +4,7 @@ import { Button } from '../../components/button/Button';
 import { Center } from '../../components/center/Center';
 import { FloatButton } from '../../components/float-button/FloatButton';
 import { Icon } from '../../components/icon/Icon';
-import { Overlay } from '../../components/overlay/Overlay';
+import { Overlay, OverlayIcon } from '../../components/overlay/Overlay';
 import { MainLayout } from '../../layouts/MainLayout';
 import s from './StartPage.module.scss';
 export const StartPage = defineComponent({
@@ -24,7 +24,7 @@ export const StartPage = defineComponent({
       <MainLayout>
         {{
           title: () => '桃子记账',
-          icon: () => <Icon name="menu" class={s.navIcon} onClick={onClickNavIcon} />,
+          icon: () => <OverlayIcon />,
           default: () => <>
             <Center class={s.pig_wrapper}>
               <Icon name={"pig"} class={s.pig} />

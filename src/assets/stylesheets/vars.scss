@@ -1,4 +1,5 @@
 :root {
+  --text: #333;
   --welcome-card-bg: white;
   --welcome-text: white;
   --welcome-bg-start: #5d33be;
@@ -7,6 +8,7 @@
   --welcome-nav-gap: 8px;
   --z-index-bottom-nav: 8;
   --z-index-overlay: 16;
+  --z-index-navbar: 32;
   --transition-duration: 0.5s;
   --button-bg: #5c33be;
   --button-bg-danger: #E10505;
