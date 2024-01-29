@@ -1,7 +1,7 @@
 import { defineComponent, PropType, reactive } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Icon } from '../../components/icon/Icon';
-import s from './TagCreate.module.scss';
+import s from './Tag.module.scss';
 import { Button } from '../../components/button/Button';
 import { EmojiSelect } from '../../components/emoji-select/EmojiSelect';
 import { Rules, validate } from '../../shared/validate';
