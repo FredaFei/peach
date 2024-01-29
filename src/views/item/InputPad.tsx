@@ -10,8 +10,33 @@ export const InputPad = defineComponent({
     }
   },
   setup: () => {
-    const refAmount = ref('')
-    const appendText = (n: number | string) => refAmount.value += n.toString()
+    const refAmount = ref('0')
+    const appendText = (n: number | string) => {
+      const nString = n.toString()
+      const dotIndex = refAmount.value.indexOf('.')
+      if (refAmount.value.length >= 13) {
+        return
+      }
+      if (dotIndex >= 0 && refAmount.value.length - dotIndex > 2) {
+        return
+      }
+      if (nString === '.') {
+        if (dotIndex >= 0) { // 已经有小数点了
+          return
+        }
+      } else if (nString === '0') {
+        if (dotIndex === -1) { // 没有小数点
+          if (refAmount.value === '0') { // 没小数点，但是有0
+            return
+          }
+        }
+      } else {
+        if (refAmount.value === '0') {
+          refAmount.value = ''
+        }
+      }
+      refAmount.value += n.toString()
+    }
     const buttons = [
       { text: '1', onClick: () => { appendText(1) } },
       { text: '2', onClick: () => { appendText(2) } },
