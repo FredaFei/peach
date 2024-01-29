@@ -15,6 +15,7 @@ import { ItemPage } from '../views/item/ItemPage'
 import { TagPage } from '../views/tag/TagPage'
 import { TagCreate } from '../views/tag/TagCreate'
 import { TagEdit } from '../views/tag/TagEdit'
+import { SignInPage } from '../views/sign/SignInPage'
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -29,6 +30,7 @@ export const routes: RouteRecordRaw[] = [
       { path: '4', name: "Welcome4", components: { main: Forth, footer: ForthActions } },
     ],
   },
+  { path: '/sign_in', component: SignInPage },
   { path: '/start', component: StartPage, },
   {
     path: '/items', component: ItemPage,
@@ -40,8 +42,8 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/tags', component: TagPage,
     children: [
-      {path: 'create', component: TagCreate},
-      {path: ':id/edit', component: TagEdit}
+      { path: 'create', component: TagCreate },
+      { path: ':id/edit', component: TagEdit }
     ]
   }
 ]
