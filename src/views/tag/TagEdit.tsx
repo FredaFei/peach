@@ -1,44 +1,57 @@
-import { Icon } from 'vant';
-import { defineComponent, PropType, reactive } from 'vue';
-import { EmojiSelect } from '../../components/emoji-select/EmojiSelect';
+import { Dialog } from 'vant';
+import { defineComponent } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Rules, validate } from '../../shared/validate';
 import s from './Tag.module.scss';
 import { TagForm } from './TagForm';
 import { Button } from '../../components/button/Button';
+import { useRoute, useRouter } from 'vue-router';
+import { http } from '../../shared/Http';
+import { BackIcon } from '../../components/BackIcon';
 
 export const TagEdit = defineComponent({
   setup: (props, context) => {
-    const formData = reactive({
-      name: '',
-      sign: '',
-    })
-    const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
-    const onSubmit = (e: Event) => {
-      const rules: Rules<typeof formData> = [
-        { key: 'name', type: 'required', message: '必填' },
-        { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填 1 到 4 个字符' },
-        { key: 'sign', type: 'required', message: '必填' },
-      ]
-      Object.assign(errors, {
-        name: undefined,
-        sign: undefined
+    const route = useRoute()
+    const numberId = parseInt(route.params.id!.toString())
+    if (Number.isNaN(numberId)) {
+      return () => <div>id 不存在</div>
+    }
+    const router = useRouter()
+    const onError = () => {
+      Dialog.alert({ title: '提示', message: '删除失败' })
+    }
+    const onDelete = async (options?: { withItems?: boolean }) => {
+      await Dialog.confirm({
+        title: '确认',
+        message: '你真的要删除吗？',
       })
-      Object.assign(errors, validate(formData, rules))
-      e.preventDefault()
+      await http
+        .delete(`/tags/${numberId}`, {
+          with_items: options?.withItems ? 'true' : 'false',
+        }, {_autoLoading: true})
+        .catch(onError)
+      router.back()
     }
     return () => (
-      <MainLayout>{{
-        title: () => '新建标签',
-        icon: () => <Icon name="left" onClick={() => { }} />,
-        default: () => <>
-          <TagForm />
-          <div class={s.actions}>
-            <Button level='danger' class={s.removeTags} onClick={() => { }}>删除标签</Button>
-            <Button level='danger' class={s.removeTagsAndItems} onClick={() => { }}>删除标签和记账</Button>
-          </div>
-        </>
-      }}</MainLayout>
+      <MainLayout>
+        {{
+          title: () => '编辑标签',
+          icon: () => <BackIcon />,
+          default: () => (
+            <>
+              <TagForm id={numberId} />
+              <div class={s.actions}>
+                <Button
+                  level="danger"
+                  class={s.removeTagsAndItems}
+                  onClick={() => onDelete({ withItems: true })}
+                >
+                  删除标签（对应记账也会被删除）
+                </Button>
+              </div>
+            </>
+          ),
+        }}
+      </MainLayout>
     )
-  }
+  },
 })
