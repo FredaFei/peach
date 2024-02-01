@@ -4,6 +4,7 @@ import { EmojiSelect } from '../emoji-select/EmojiSelect';
 import { DatetimePicker, Popup } from 'vant';
 import { Time } from '../../shared/time';
 import { Button } from '../button/Button';
+import { getFriendlyError } from '../../shared/getFriendlyError';
 
 export const Form = defineComponent({
   props: {
@@ -26,7 +27,7 @@ export const FormItem = defineComponent({
       type: String
     },
     modelValue: {
-      type: [String, Number]
+      type: [String, Number, Date]
     },
     type: {
       type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationCode' | 'select'>,
@@ -35,11 +36,30 @@ export const FormItem = defineComponent({
       type: String
     },
     placeholder: String,
-    options: Array as PropType<Array<{ value: string, text: string }>>
+    options: Array as PropType<Array<{ value: string, text: string }>>,
+    onClick: Function as PropType<() => void>,
+    countFrom: {
+      type: Number,
+      default: 60
+    },
+    disabled: Boolean,
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const refDateVisible = ref(false)
+    const timer = ref<number>()
+    const count = ref<number>(props.countFrom)
+    const isCounting = computed(() => !!timer.value)
+    const startCount = () =>
+      timer.value = setInterval(() => {
+        count.value -= 1
+        if (count.value === 0) {
+          clearInterval(timer.value)
+          timer.value = undefined
+          count.value = props.countFrom
+        }
+      }, 1000)
+    context.expose({ startCount })
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -51,14 +71,16 @@ export const FormItem = defineComponent({
         case 'emojiSelect':
           return <EmojiSelect
             modelValue={props.modelValue?.toString()}
-            onUpdate:modelValue={value => context.emit('update:modelValue', value)}
+            onUpdateModelValue={value => context.emit('update:modelValue', value)}
             class={[s.formItem, s.emojiList, s.error]} />
         case 'validationCode':
           return <>
             <input class={[s.formItem, s.input, s.validationCodeInput]}
+              value={props.modelValue}
+              onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
               placeholder={props.placeholder} />
-            <Button class={[s.formItem, s.button, s.validationCodeButton]}>
-              发送验证码
+            <Button disabled={isCounting.value || props.disabled} onClick={props.onClick} class={[s.formItem, s.button, s.validationCodeButton]}>
+              {isCounting.value ? `${count.value}秒后可重新发送` : '发送验证码'}
             </Button>
           </>
         case 'select':
@@ -75,7 +97,9 @@ export const FormItem = defineComponent({
               onClick={() => { refDateVisible.value = true }}
               class={[s.formItem, s.input]} />
             <Popup position='bottom' v-model:show={refDateVisible.value}>
-              <DatetimePicker value={props.modelValue} type="date" title="选择年月日"
+              <DatetimePicker
+                modelValue={props.modelValue ? new Date(props.modelValue) : new Date()}
+                type="date" title="选择年月日"
                 onConfirm={(date: Date) => {
                   context.emit('update:modelValue', new Time(date).format())
                   refDateVisible.value = false
@@ -96,7 +120,7 @@ export const FormItem = defineComponent({
             {content.value}
           </div>
           <div class={s.formItem_errorHint}>
-            <span>{props.error??' '}</span>
+            <span>{props.error ? getFriendlyError(props.error) : '　'}</span>
           </div>
         </label>
       </div>
