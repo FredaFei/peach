@@ -1,11 +1,17 @@
-import { FunctionalComponent } from 'vue';
+import { FunctionalComponent, defineComponent } from 'vue';
 import s from './WelcomeLayout.module.scss';
 import { RouterLink } from 'vue-router';
+import { SkipFeatures } from './SkipFeatures';
+const onClick = () => {
+  localStorage.setItem('skipFeatures', 'yes')
+}
 export const ForthActions: FunctionalComponent = (props, context) => {
   return <div class={s.actions}>
-    <RouterLink class={s.fake} to="/start">跳过</RouterLink>
-    <RouterLink class={s.fake} to="/start">跳过</RouterLink>
-    <RouterLink to="/start">开启应用</RouterLink>
+    <SkipFeatures class={s.fake} />
+    <SkipFeatures class={s.fake} />
+    <span onClick={onClick}>
+      <RouterLink to="/items">完成</RouterLink>
+    </span>
   </div>
 }
 ForthActions.displayName = 'ForthActions';
