@@ -7,7 +7,10 @@
   border-radius: var(--button-radius);
   padding: 8px 16px;
   height: var(--button-height);
-
+  &[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   &.normal {}
 
   &.important {}
