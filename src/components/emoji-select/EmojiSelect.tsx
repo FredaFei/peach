@@ -5,10 +5,12 @@ import { emojiList } from '../../shared/emojiList';
 export const EmojiSelect = defineComponent({
   props: {
     modelValue: {
-      type: String as PropType<string>
+      type: String
     },
+    onUpdateModelValue: {
+      type: Function as PropType<(emoji: string) => void>
+    }
   },
-  emits: ['update:modelValue'],
   setup: (props, context) => {
     const refSelected = ref(1)
     const table: [string, string[]][] = [
