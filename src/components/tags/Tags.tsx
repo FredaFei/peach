@@ -32,7 +32,9 @@ export const Tags = defineComponent({
 
     const router = useRouter()
     const onLongPress = (tagId: Tag['id'])=>{
-      router.push(`/tags/${tagId}/edit?kind=${props.kind}&return_to=${router.currentRoute.value.fullPath}`)
+      // return_to 仅在登录页面中使用
+      // router.push(`/tags/${tagId}/edit?kind=${props.kind}&return_to=${router.currentRoute.value.fullPath}`)
+      router.push(`/tags/${tagId}/edit?kind=${props.kind}`)
     }
     const onTouchStart = (e: TouchEvent, tag: Tag) => {
       currentTag.value = e.currentTarget as HTMLDivElement
