@@ -1,16 +1,35 @@
-# Vue 3 + Typescript + Vite
+# Vue 3 + TSX 项目
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 部署
 
-## Recommended IDE Setup
+```bash
+pnpm run build --base /
+bin/coscli-linux cp -r dist cos://mangosteen-test-3-1305090081
+```
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+## 编码规范
 
-## Type Support For `.vue` Imports in TS
+### ref 默认值
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+推荐使用
 
-1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+```tsx
+const div = ref<HTMLDivElement>();
+```
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+不推荐使用
+
+```tsx
+const div = ref<HTMLDivElement | null>(null);
+```
+
+## 如何开发
+
+## 如何打包
+## TODO
+- [ ] 仅删除标签（不删除关联的记账）后，处理没有标签的记账展示；
+- [ ] 可查看记账详情页，并支持修改；
+- [ ] 添加标签页面的回退按钮支持返回上次的记账类型（收入还是支出）；
+- [ ] 支出删除记账（单个）；
+- [ ] 支出删除记账（多个）；
+- [ ] 统计页面中图表支出的最小单位为周展示；
