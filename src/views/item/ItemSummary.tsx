@@ -114,6 +114,9 @@ export const ItemSummary = defineComponent({
                   <span>没有更多</span>
                 )}
               </div>
+              <RouterLink to="/items/create">
+                <FloatButton iconName="add" />
+              </RouterLink>
             </>
           ) : (
             <>
@@ -128,9 +131,6 @@ export const ItemSummary = defineComponent({
               </div>
             </>
           )}
-          <RouterLink to="/items/create">
-            <FloatButton iconName="add" />
-          </RouterLink>
         </div>
       )
   }
