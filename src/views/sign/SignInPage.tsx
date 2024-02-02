@@ -37,9 +37,12 @@ export const SignInPage = defineComponent({
         { key: 'code', type: 'required', message: '必填' },
       ]))
       if (!hasError(errors)) {
-        const response = await http.post<{ jwt: string }>('/session', formData, {_autoLoading: true})
+        const response = await http.post<{ jwt: string }>('/session', formData, { _autoLoading: true })
           .catch(onError)
         localStorage.setItem('jwt', response.data.jwt)
+        // 需求：如果用户在未登录状态下访问了一个需要登录的页面，那么登录成功后应该跳转到这个页面
+        // 跳转到登录页面时，把当前页面的路径保存到 query.return_to 中
+        // router.push('/sign_in?return_to=' + encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()
         meStore.refreshMe()
         router.push(returnTo || '/')
@@ -54,7 +57,7 @@ export const SignInPage = defineComponent({
     const onClickSendValidationCode = async () => {
       disabled()
       await http
-        .post('/validation_codes', { email: formData.email } , {
+        .post('/validation_codes', { email: formData.email }, {
           _autoLoading: true
         })
         .catch(onError)
@@ -79,7 +82,7 @@ export const SignInPage = defineComponent({
                   v-model={formData.email} error={errors.email?.[0]} />
                 <FormItem ref={refValidationCode} label="验证码" type="validationCode"
                   placeholder='请输入六位数字'
-                  countFrom={1}
+                  countFrom={60}
                   disabled={refDisabled.value}
                   onClick={onClickSendValidationCode}
                   v-model={formData.code} error={errors.code?.[0]} />
