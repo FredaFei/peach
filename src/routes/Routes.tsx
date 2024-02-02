@@ -24,6 +24,11 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/welcome',
     component: Welcome,
+    beforeEnter: (to, from, next) => {
+      // 扩展：1. localStorage 中 skipFeatures的值还可以是用户上次看广告的时间，存在多个广告上新的情况下，通过对比观看时间和广告的上新时间，确保用户能看到最新的广告
+      // 2. 鉴权，通过发起请求判定用户是否有进入页面的权限
+      localStorage.getItem('skipFeatures') === 'yes' ? next('/items') : next()
+    },
     children: [
       { path: '', redirect: '/welcome/1' },
       { path: '1', name: "Welcome1", components: { main: First, footer: FirstActions } },
