@@ -32,6 +32,8 @@ export const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('../views/item/ItemList'), },
       { path: 'create', component: () => import('../views/item/ItemCreate'), },
+      { path: ':id/show', component: () => import('../views/item/ItemShow'), },
+      { path: ':id/edit', component: () => import('../views/item/ItemEdit'), },
     ]
   },
   {

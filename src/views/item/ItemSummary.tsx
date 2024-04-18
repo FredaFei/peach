@@ -5,7 +5,7 @@ import { useItemStore } from '../../stores/useItemStore';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { http } from '../../shared/Http';
 import { Button } from '../../components/button/Button';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { Icon } from '../../components/icon/Icon';
 import { Money } from '../../shared/Money';
 import { Datetime } from '../../shared/Datetime';
@@ -66,6 +66,10 @@ export const ItemSummary = defineComponent({
         fetchItemsBalance()
       }
     )
+    const router = useRouter()
+    const onClickItem = (item: Item) => {
+      router.push(`/items/${item.id}/show`)
+    }
     return () =>
       !props.startDate || !props.endDate ? (
         <div>请先选择时间范围</div>
@@ -89,7 +93,7 @@ export const ItemSummary = defineComponent({
               </ul>
               <ol class={s.list}>
                 {itemStore.items.map((item) => (
-                  <li>
+                  <li onClick={() => onClickItem(item)}>
                     <div class={s.sign}>
                       <span>{item.tags && item.tags.length > 0 ? item.tags[0].sign : '💰'}</span>
                     </div>
