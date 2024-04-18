@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref, watch } from 'vue';
 import s from './InputPad.module.scss';
 import { Icon } from '../../components/icon/Icon';
 import { DatetimePicker, Popup } from 'vant';
@@ -68,6 +68,9 @@ export const InputPad = defineComponent({
       hideDatePicker()
     }
     const refAmount = ref(props.amount ? (props.amount / 100).toString() : '0')
+    watch(() => props.amount, (newVal) => {
+      refAmount.value = newVal ? (newVal / 100).toString() : '0';
+    });
     return () => <>
       <div class={s.dateAndAmount}>
         <span class={s.date}>
