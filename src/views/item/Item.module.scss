@@ -1,0 +1,66 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 88px);
+}
+.tabs {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+}
+.inputPad_wrapper {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .sign{
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--tag-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+  }
+  .text{
+    margin-top: 4px;
+    color: var(--white);
+    font-size: 14px;
+  }
+}
+.item_content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 16px 16px;
+  .item{
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .label{
+    color: var(--list-time-text);
+  }
+  .value{
+    color: var(--list-tag-text);
+  } 
+  .amount{
+    color: var(--list-amount-text);
+  }
+}
+
+.actions{
+  padding: 40px 16px 16px 16px;
+  display: flex;
+  justify-content: space-between;
+  .removeItems, .removeItemsAndTags{
+    width: calc(50% - 8px);
+    // width: 100%;
+  }
+}

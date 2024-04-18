@@ -1,15 +1,13 @@
 import { defineComponent, PropType, reactive } from 'vue';
-import { Tabs, Tab } from '../../components/tabs/Tabs';
 import { MainLayout } from '../../layouts/MainLayout';
-import s from './ItemCreate.module.scss';
-import { InputPad } from './InputPad';
+import s from './Item.module.scss';
 import { useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
 import { Dialog } from 'vant';
 import { hasError, validate } from '../../shared/validate';
 import { http } from '../../shared/Http';
 import { BackIcon } from '../../components/BackIcon';
-import { Tags } from '../../components/tags/Tags';
+import { ItemForm } from './ItemForm';
 
 export const ItemCreate = defineComponent({
   props: {
@@ -59,27 +57,28 @@ export const ItemCreate = defineComponent({
         {{
           title: () => '记一笔',
           icon: () => <BackIcon />,
-          default: () => (
-            <>
-              <div class={s.wrapper}>
-                <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                  <Tab value="expenses" name="支出">
-                    <Tags kind="expenses" v-model:selected={formData.tag_ids![0]} />
-                  </Tab>
-                  <Tab value="income" name="收入">
-                    <Tags kind="income" v-model:selected={formData.tag_ids![0]} />
-                  </Tab>
-                </Tabs>
-                <div class={s.inputPad_wrapper}>
-                  <InputPad
-                    v-model:happenAt={formData.happen_at}
-                    v-model:amount={formData.amount}
-                    onSubmit={onSubmit}
-                  />
-                </div>
-              </div>
-            </>
-          )
+          default: () => <ItemForm/>
+          // (
+          //   <>
+          //     <div class={s.wrapper}>
+          //       <Tabs v-model:selected={formData.kind} class={s.tabs}>
+          //         <Tab value="expenses" name="支出">
+          //           <Tags kind="expenses" v-model:selected={formData.tag_ids![0]} />
+          //         </Tab>
+          //         <Tab value="income" name="收入">
+          //           <Tags kind="income" v-model:selected={formData.tag_ids![0]} />
+          //         </Tab>
+          //       </Tabs>
+          //       <div class={s.inputPad_wrapper}>
+          //         <InputPad
+          //           v-model:happenAt={formData.happen_at}
+          //           v-model:amount={formData.amount}
+          //           onSubmit={onSubmit}
+          //         />
+          //       </div>
+          //     </div>
+          //   </>
+          // )
         }}
       </MainLayout>
     )
