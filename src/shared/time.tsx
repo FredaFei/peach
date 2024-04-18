@@ -29,6 +29,7 @@ export class Time {
     const minute = this.date.getMinutes()
     const second = this.date.getSeconds()
     const msecond = this.date.getMilliseconds()
+    const dayOfWeek = this.getDayOfWeek();
     return pattern.replace(/YYYY/g, year.toString())
       .replace(/MM/, month.toString().padStart(2, '0'))
       .replace(/DD/, day.toString().padStart(2, '0'))
@@ -36,6 +37,7 @@ export class Time {
       .replace(/mm/, minute.toString().padStart(2, '0'))
       .replace(/ss/, second.toString().padStart(2, '0'))
       .replace(/SSS/, msecond.toString().padStart(3, '0'))
+      .replace(/week/, dayOfWeek)
   }
   firstDayOfMonth() {
     return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0));
@@ -54,6 +56,13 @@ export class Time {
   }
   getTimestamp() {
     return this.date.getTime()
+  }
+  
+  getDayOfWeek() {
+    const day = this.date.getDay();
+    // const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    return daysOfWeek[day];
   }
   add(amount: number, unit: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second' | 'millisecond') {
     // return new Time but not change this.date
