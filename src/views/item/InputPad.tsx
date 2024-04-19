@@ -59,7 +59,7 @@ export const InputPad = defineComponent({
       if(refOperator.value){
         if(refSecondInput.value){
           const result = operatorFactory(refOperator.value as Operator)(Number(refInput.value), Number(refSecondInput.value));
-          refInput.value= (Math.round(result*100)/100).toString()
+          refInput.value= (Math.round(result*100) / 100).toString()
           resetForNewOperator();
         }
       }
@@ -86,7 +86,7 @@ export const InputPad = defineComponent({
       calaculate();
       resetForNewOperator();
       // JavaScript 中精度问题以及解决方案参考链接 https://www.runoob.com/w3cnote/js-precision-problem-and-solution.html
-      context.emit('update:amount', parseFloat(refInput.value) * 100)
+      context.emit('update:amount', Math.round(parseFloat(refInput.value) * 100))
       props.onSubmit?.()
     }
     const buttons = [
