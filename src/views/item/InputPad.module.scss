@@ -2,8 +2,8 @@
 }
 .displayAndNote{
   background: var(--overlay-bg);
-  padding: 4px 8px;
-  margin-bottom: 4px;
+  padding: 0px 8px;
+  margin-bottom: 8px;
   border-top: 1px solid var(--button-border-color);
   .display{
     padding: 8px 0px;
@@ -82,7 +82,7 @@
       border-bottom: none;
     }
     &:nth-child(13),&:nth-child(14),&:nth-child(15),&:nth-child(16){
-      border-bottom: 1px solid var(--button-border-color);
+      // border-bottom: 1px solid var(--button-border-color);
     }
     &:nth-child(16) {
       border-top: none;
