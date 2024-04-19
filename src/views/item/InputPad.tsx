@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, watch } from 'vue';
+import { computed, defineComponent, PropType, ref, watch } from 'vue';
 import s from './InputPad.module.scss';
 import { DatetimePicker, Popup } from 'vant';
 import { Time } from '../../shared/time';
@@ -124,7 +124,14 @@ export const InputPad = defineComponent({
     const onInputNote = (e: any) => {
       refNote.value = e.target.value;
     }
-    
+    const dateText = computed(()=>{
+      const now = new Time().format()
+      const happenAt = new Time(props.happenAt).format()
+      if(now===happenAt){
+        return '今天'
+      }
+      return happenAt
+    })
     return () => <>
       <div class={s.displayAndNote}>
         <div class={s.display}>{refInput.value}{refOperator.value}{refSecondInput.value}</div>
@@ -140,7 +147,7 @@ export const InputPad = defineComponent({
       <div class={s.buttons}>
         {
           buttons.map(button =>{
-            return button.text ==='时间' ? <button onClick={button.onClick} class={s.smallTime}>{new Time(props.happenAt).format()}</button>
+            return button.text ==='时间' ? <button onClick={button.onClick} class={s.smallTime}>{dateText.value}</button>
             : button.text ==='提交' && refSecondInput.value ? <button onClick={onClickCalaculateButton}>=</button> 
             : <button onClick={button.onClick}>{button.text}</button>
           })
