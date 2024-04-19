@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, reactive } from 'vue';
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './Item.module.scss';
 import { hasError, validate } from '../../shared/validate';
 import { useRoute, useRouter } from 'vue-router';
@@ -61,26 +61,46 @@ export const ItemForm = defineComponent({
       )
       const {id, kind, tag_ids, amount, happen_at } = response.data.resource
       Object.assign(formData, {id, kind, tag_ids, amount, happen_at })
-      
     })
+    
+    const refVisibleUnputPad = ref(false);
+    watch(() => formData.kind, (newVal) => {
+      refVisibleUnputPad.value = false
+    });
+    watch(() => formData.tag_ids![0], (newVal) => {
+      if(newVal){
+        refVisibleUnputPad.value = true
+      }
+    });
+    const onSelectTag = () => {
+      refVisibleUnputPad.value = true
+    }
     return () => (
       <>
         <div class={s.wrapper}>
           <Tabs v-model:selected={formData.kind} class={s.tabs}>
             <Tab value="expenses" name="支出">
-              <Tags kind="expenses" v-model:selected={formData.tag_ids![0]} />
+              <Tags kind="expenses" 
+                v-model:selected={formData.tag_ids![0]} 
+                onUpdate:selected={onSelectTag}
+              />
             </Tab>
             <Tab value="income" name="收入">
-              <Tags kind="income" v-model:selected={formData.tag_ids![0]} />
+              <Tags kind="income" 
+                v-model:selected={formData.tag_ids![0]}
+                onUpdate:selected={onSelectTag}
+              />
             </Tab>
           </Tabs>
-          <div class={s.inputPad_wrapper}>
-            <InputPad
-              v-model:happenAt={formData.happen_at}
-              v-model:amount={formData.amount}
-              onSubmit={onSubmit}
-            />
-          </div>
+          {
+            refVisibleUnputPad.value && <div class={s.inputPad_wrapper}>
+              <InputPad
+                v-model:happenAt={formData.happen_at}
+                v-model:amount={formData.amount}
+                onSubmit={onSubmit}
+              />
+            </div>
+          }
         </div>
       </>
     )
