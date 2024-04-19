@@ -7,7 +7,7 @@ export const Money = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <span>{addZero(props.value / 100)}</span>
+    return () => <span>{getMoney(props.value)}</span>
   },
 })
 
