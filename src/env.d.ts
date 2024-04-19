@@ -56,3 +56,10 @@ type ResourceError = {
 };
 
 type FormErrors<T> = {[K in keyof typeof T]: string[]}
+
+type Operator = '+' | '-';
+type Operation = (a: number, b: number) => number;
+
+type OperatorTable = {
+  [K in Operator]: Operation;
+};

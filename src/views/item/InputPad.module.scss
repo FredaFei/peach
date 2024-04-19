@@ -1,5 +1,36 @@
 .wrapper {
 }
+.displayAndNote{
+  background: var(--overlay-bg);
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  border-top: 1px solid var(--button-border-color);
+  .display{
+    padding: 8px 0px;
+    font-size: 18px;
+    font-family: inherit;
+    text-align: right;
+  }
+  .note {
+    padding: 6px 4px;
+    background-color: #ddd;
+    border-radius: var(--input-radius);
+    display: flex;
+    align-items: baseline;
+    font-size: 14px;
+    input {
+      border: none;
+      flex-grow: 1;
+      background: transparent;
+      font-family: inherit;
+      margin-left: 4px;
+      max-width: 100%;
+      // &.error {
+      //   border-color: var(--error-color);
+      // }
+    }
+  }
+}
 .dateAndAmount {
   background: var(--overlay-bg);
   display: flex;
@@ -29,59 +60,38 @@
 .buttons {
   display: grid;
   grid-template-areas:
-    "n1 n2 n3 d"
-    "n4 n5 n6 d"
-    "n7 n8 n9 s"
-    "n0 n0 nd s";
+    "n1 n2 n3 n4"
+    "n5 n6 n7 n8"
+    "n9 n10 n11 n12"
+    "n13 n14 n15 n16";
   grid-auto-rows: 48px;
   grid-auto-columns: 1fr;
-  gap: 1px;
+  // gap: 1px;
   flex-wrap: wrap;
   background: var(--button-border-color);
-  border-top: 1px solid var(--button-border-color);
+  // border-top: 1px solid var(--button-border-color);
   > button {
-    border: none;
+    border: 1px solid var(--button-border-color); /* 这将为每个按钮添加边框 */
     background: var(--number-button-bg);
-    &:nth-child(1) {
-      grid-area: n1;
+    &:nth-child(2n) {
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
     }
-    &:nth-child(2) {
-      grid-area: n2;
+    &:nth-child(2n+1) {
+      border-bottom: none;
     }
-    &:nth-child(3) {
-      grid-area: n3;
+    &:nth-child(13),&:nth-child(14),&:nth-child(15),&:nth-child(16){
+      border-bottom: 1px solid var(--button-border-color);
     }
-    &:nth-child(4) {
-      grid-area: n4;
-    }
-    &:nth-child(5) {
-      grid-area: n5;
-    }
-    &:nth-child(6) {
-      grid-area: n6;
-    }
-    &:nth-child(7) {
-      grid-area: n7;
-    }
-    &:nth-child(8) {
-      grid-area: n8;
-    }
-    &:nth-child(9) {
-      grid-area: n9;
-    }
-    &:nth-child(10) {
-      grid-area: nd;
-    }
-    &:nth-child(11) {
-      grid-area: n0;
-    }
-    &:nth-child(12) {
-      grid-area: d;
-    }
-    &:nth-child(13) {
-      grid-area: s;
+    &:nth-child(16) {
+      border-top: none;
+      border-bottom: none;
       background: var(--number-button-bg-important);
       color: var(--number-button-text-important);
+    }
+    &.smallTime{
+      font-size: 12px;
     }
   }
 }
