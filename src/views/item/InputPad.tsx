@@ -59,7 +59,7 @@ export const InputPad = defineComponent({
       if(refOperator.value){
         if(refSecondInput.value){
           const result = operatorFactory(refOperator.value as Operator)(Number(refInput.value), Number(refSecondInput.value));
-          refInput.value= (Math.round(result * 100) / 100).toString()
+          refInput.value= (Math.round(Math.abs(result) * 100) / 100).toString()
           resetForNewOperator();
         }
       }
