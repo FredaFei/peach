@@ -7,7 +7,9 @@ type Rule<T> = {
 } & (
     { type: 'required' } |
     { type: 'pattern', regex: RegExp } |
-    { type: 'notEqual', value: JSONValue }
+    { type: 'notEqual', value: JSONValue } |
+    { type: 'minLength', minLength: number } |
+    { type: 'maxLength', maxLength: number }
   )
 type Rules<T> = Rule<T>[]
 export type { Rules, Rule, FData }
@@ -34,6 +36,18 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
         break;
       case 'notEqual':
         if (!isEmpty(value) && value === rule.value) {
+          errors[key] = errors[key] ?? []
+          errors[key]?.push(message)
+        }
+        break;
+      case 'minLength':
+        if (!isEmpty(value) && value.length < rule.minLength!) {
+          errors[key] = errors[key] ?? []
+          errors[key]?.push(message)
+        }
+        break;
+      case 'maxLength':
+        if (!isEmpty(value) && value.length > rule.maxLength!) {
           errors[key] = errors[key] ?? []
           errors[key]?.push(message)
         }

@@ -87,6 +87,7 @@ export const InputPad = defineComponent({
       resetForNewOperator();
       // JavaScript 中精度问题以及解决方案参考链接 https://www.runoob.com/w3cnote/js-precision-problem-and-solution.html
       context.emit('update:amount', parseFloat(refInput.value) * 100)
+      context.emit('update:note', refNote.value)
       props.onSubmit?.()
     }
     const buttons = [

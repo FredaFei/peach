@@ -23,7 +23,8 @@ export const ItemShow = defineComponent({
       tag_ids: [],
       tags: [],
       happen_at: new Date().toISOString(),
-      kind: 'expenses'
+      kind: 'expenses',
+      note: ''
     })
     onMounted(async () => {
       if (!itemId) {
@@ -87,12 +88,12 @@ export const ItemShow = defineComponent({
                   <Col span="3" class={s.label}>日期</Col>
                   <Col span="21" class={s.value}><Datetime value={formData.happen_at} format='YYYY-MM-DD week'/></Col>
                 </Row>
-                {/* {
-                  formData.note && <Row>
-                    <Col span="4">备注</Col>
-                    <Col span="20">{formData.note}</Col>
+                {
+                  formData.note && <Row class={s.item}>
+                    <Col span="3" class={s.label}>备注</Col>
+                    <Col span="21" class={s.value}>{formData.note}</Col>
                   </Row>
-                } */}
+                }
               </div>
               <div class={s.actions}>
                 <Button level="normal" class={s.removeItems} onClick={onClickEdit}>编辑</Button>

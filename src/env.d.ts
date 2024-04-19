@@ -32,6 +32,7 @@ type Item = {
   tags?: Tag[],
   happen_at: string;
   kind: 'expenses' | 'income';
+  note?: string;
 };
 type User = {
   id: number;

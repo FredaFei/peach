@@ -21,7 +21,8 @@ export const ItemForm = defineComponent({
       kind: (route.query?.kind ? route.query.kind!.toString() : 'expenses') as ('expenses' | 'income'),
       tag_ids: [],
       amount: 0,
-      happen_at: new Date().toISOString()
+      happen_at: new Date().toISOString(),
+      note: ''
     })
     const errors = reactive<FormErrors<typeof formData>>({})
     const router = useRouter()
@@ -30,7 +31,7 @@ export const ItemForm = defineComponent({
       message: Object.values(errors).filter(i=>i.length>0).join('\n')
     })
     const onSubmit = async () => {
-      Object.assign(errors, { kind: [], tag_ids: [], amount: [], happen_at: [] })
+      Object.assign(errors, { kind: [], tag_ids: [], amount: [], happen_at: [], note: [] })
       Object.assign(errors, validate(formData, [
         { key: 'kind', type: 'required', message: '类型必填' },
         { key: 'tag_ids', type: 'required', message: '标签必填' },
@@ -38,6 +39,7 @@ export const ItemForm = defineComponent({
         { key: 'amount', type: 'required', message: '金额必填' },
         { key: 'amount', type: 'notEqual', value: 0, message: '金额不能为零' },
         { key: 'happen_at', type: 'required', message: '时间必填' },
+        { key: 'note', type: 'maxLength', maxLength: 50, message: '备注长度不能超过50' },
       ]))
       
       if(hasError(errors)){
@@ -59,8 +61,8 @@ export const ItemForm = defineComponent({
       const response = await http.get<Resource<Item>>(
         `/items/${props.id}`, { }, { _mock: 'itemShow' }
       )
-      const {id, kind, tag_ids, amount, happen_at } = response.data.resource
-      Object.assign(formData, {id, kind, tag_ids, amount, happen_at })
+      const {id, kind, tag_ids, amount, happen_at, note } = response.data.resource
+      Object.assign(formData, { id, kind, tag_ids, amount, happen_at, note })
     })
     
     const refVisibleUnputPad = ref(false);
@@ -97,6 +99,7 @@ export const ItemForm = defineComponent({
               <InputPad
                 v-model:happenAt={formData.happen_at}
                 v-model:amount={formData.amount}
+                v-model:note={formData.note}
                 onSubmit={onSubmit}
               />
             </div>
